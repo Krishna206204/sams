@@ -318,7 +318,6 @@ def student_assignment(request, student_id):
         .order_by("-created_at")
     )
     
-    
     context={
         "assignment_list":assignment_list,
         "student":student,

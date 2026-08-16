@@ -61,6 +61,15 @@ from academics.models import Subject
 
 
 
+def home(request):
+    return render(request,"accounts/home.html")
+
+def contact(request):
+    return render(request,"accounts/contact.html")
+
+
+def about(request):
+    return render(request,"accounts/about.html")
 
 def teacher_login(request):
     if request.user.is_authenticated:

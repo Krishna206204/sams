@@ -28,7 +28,6 @@ def student_login_required(view_func):
                 )
 
         return view_func(request, *args, **kwargs)
-
     return wrapper
 
 def student(request):
@@ -75,12 +74,13 @@ def student_lookup(request):
     if request.method == "POST":
 
         student_id = request.POST.get("student_id")
-        phone = request.POST.get("phone")
+        # phone = request.POST.get("phone")
+        date_of_birth=request.POST.get("date_of_birth")
 
         try:
             student = Student.objects.get(
                 id=student_id,
-                phone=phone
+                date_of_birth=date_of_birth,
             )
             request.session["student_id"] = student.id
             return redirect(
@@ -94,7 +94,7 @@ def student_lookup(request):
                 request,
                 "students/student_lookup.html",
                 {
-                    "error_message": "Invalid Student ID or Phone Number."
+                    "error_message": "Invalid Student ID or Date of birth."
                 }
             )
 
@@ -295,7 +295,7 @@ def student_report_card(request, student_id, exam_name=None):
         "grade": grade,
         "result": result,
         "remarks": remarks,
-        "school_name": "Jhime Malika ",
+        "school_name": "Jhime Malika Secondary School ",
         "school_address": "K.i singh 04, doti",
         "report_title": "Report Card",
         "academic_session": "2026",
@@ -308,7 +308,8 @@ def student_report_card(request, student_id, exam_name=None):
 def student_logout(request):
     request.session.flush()     # Optional
     # return redirect("student-lookup")
-    return redirect("student-lookup")
+    # return redirect("student-lookup")
+    return redirect("home")
 
 
 def student_assignment(request, student_id):
@@ -317,6 +318,7 @@ def student_assignment(request, student_id):
         Assignment.objects.filter(classroom=student.classroom)
         .order_by("-created_at")
     )
+    
     
     context={
         "assignment_list":assignment_list,

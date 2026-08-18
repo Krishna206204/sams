@@ -7,12 +7,15 @@
 # admin.site.register(Marks)
 
 from django.contrib import admin
-from .models import Subject, Assignment, Marks
+from .models import Subject, Assignment, Marks,Notice
 
 # Register your models here.
 admin.site.register(Subject)
 admin.site.register(Assignment)
+admin.site.register(Notice)
+
 @admin.register(Marks)
+
 class MarksAdmin(admin.ModelAdmin):
     list_display = (
         "student",

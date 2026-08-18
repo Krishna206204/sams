@@ -2,7 +2,7 @@ from functools import wraps
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
-from academics.models import Assignment, Marks, Subject
+from academics.models import Assignment, Marks, Subject,Notice
 from attendance.models import Attendance
 from students.models import ClassRoom, Student
 
@@ -311,7 +311,7 @@ def student_logout(request):
     # return redirect("student-lookup")
     return redirect("home")
 
-
+@student_login_required
 def student_assignment(request, student_id):
     student = get_object_or_404(Student.objects.select_related("classroom"), pk=student_id)
     assignment_list = (
@@ -326,6 +326,30 @@ def student_assignment(request, student_id):
     }
     
     return render(request,"students/student_assignment.html",context)
+
+
+@student_login_required
+def student_notice(request, student_id):
+
+    # Get the logged-in/current student
+    student = get_object_or_404(
+        Student.objects.select_related("classroom"),
+        pk=student_id
+    )
+
+    # Get all notices, newest first
+    notice_list = Notice.objects.all().order_by("-created_at")
+
+    context = {
+        "notice_list": notice_list,
+        "student": student,
+    }
+
+    return render(
+        request,
+        "students/student_notice.html",
+        context
+    )
 
 
 

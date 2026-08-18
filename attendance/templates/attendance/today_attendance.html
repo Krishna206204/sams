@@ -6,50 +6,96 @@
 
 {% block content %}
 <div class="space-y-6">
-  <div class="flex justify-end">
-    <div class="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
-      <a href="{% url "attendance-history" %}" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700">History</a>
-      <a href="{% url "mark-attendance" %}" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700">Mark Attendance</a>
+
+  <!-- Top Section -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    
+    <!-- Bigger Heading -->
+    <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+      Today Attendance
+    </h1>
+
+    <!-- Bright Buttons -->
+    <div class="flex flex-wrap items-center gap-3">
+
+      <!-- History Button -->
+      <a href="{% url 'attendance-history' %}"
+         class="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg">
+        History
+      </a>
+
+      <!-- Mark Attendance Button -->
+      <a href="{% url 'mark-attendance' %}"
+         class="rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-700 hover:shadow-lg">
+        Mark Attendance
+      </a>
+
     </div>
   </div>
 
-  <div class="space-y-6">
-    <div class="grid gap-4 md:grid-cols-2">
-      <div class="rounded-3xl border border-emerald-200 bg-emerald-50 p-5">
-        <p class="text-sm font-medium text-emerald-700">Present</p>
-        <p class="mt-2 text-3xl font-semibold text-emerald-900">{{ present }}</p>
-      </div>
-      <div class="rounded-3xl border border-rose-200 bg-rose-50 p-5">
-        <p class="text-sm font-medium text-rose-700">Absent</p>
-        <p class="mt-2 text-3xl font-semibold text-rose-900">{{ absent }}</p>
-      </div>
+
+  <!-- Attendance Summary -->
+  <div class="grid grid-cols-2 gap-3">
+
+    <!-- Present -->
+    <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 shadow-sm">
+      <p class="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+        Present
+      </p>
+      <p class="mt-1 text-2xl font-bold text-emerald-900">
+        {{ present }}
+      </p>
     </div>
 
-    <div class="overflow-hidden rounded-2xl border border-slate-200">
-      <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-        <thead class="bg-slate-50 text-slate-600">
-          <tr>
-            <th class="px-4 py-3 font-semibold">Student</th>
-            <th class="px-4 py-3 font-semibold">Status</th>
-            <th class="px-4 py-3 font-semibold">Time</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-200 bg-white">
-          {% for attendance in  attendance_records %}
-          <tr>
-            <td class="px-4 py-3 font-medium text-slate-900">{{ attendance.student.name }}</td>
-            {% if attendance.status == "PRESENT"  %}
-            <td class="px-4 py-3 text-emerald-700">{{ attendance.status }}</td>
-            {% else %}
-            <td class="px-4 py-3 text-red-700">{{ attendance.status }}</td>
-
-            {% endif %}
-            <td class="px-4 py-3">{{ attendance.date }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <!-- Absent -->
+    <div class="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 shadow-sm">
+      <p class="text-xs font-semibold uppercase tracking-wide text-rose-700">
+        Absent
+      </p>
+      <p class="mt-1 text-2xl font-bold text-rose-900">
+        {{ absent }}
+      </p>
     </div>
+
   </div>
+
+
+  <!-- Attendance Table -->
+  <div class="overflow-hidden rounded-2xl border border-slate-200">
+    <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
+      <thead class="bg-slate-50 text-slate-600">
+        <tr>
+          <th class="px-4 py-3 font-semibold">Student</th>
+          <th class="px-4 py-3 font-semibold">Status</th>
+          <th class="px-4 py-3 font-semibold">Time</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-slate-200 bg-white">
+        {% for attendance in attendance_records %}
+        <tr class="transition hover:bg-slate-50">
+          <td class="px-4 py-3 font-medium text-slate-900">
+            {{ attendance.student.name }}
+          </td>
+
+          {% if attendance.status == "PRESENT" %}
+            <td class="px-4 py-3 font-semibold text-emerald-700">
+              {{ attendance.status }}
+            </td>
+          {% else %}
+            <td class="px-4 py-3 font-semibold text-red-700">
+              {{ attendance.status }}
+            </td>
+          {% endif %}
+
+          <td class="px-4 py-3 text-slate-600">
+            {{ attendance.date }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
 </div>
 {% endblock %}

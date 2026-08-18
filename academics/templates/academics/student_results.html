@@ -82,7 +82,7 @@
           {% for item in students_results %}
           <tr>
             <td class="px-5 py-3 font-medium text-slate-900">{{ item.student.id }}</td>
-            <td class="px-5 py-3 font-medium text-slate-900">{{ item.student.name }}</td>
+            <td class="px-5 py-3 font-medium text-slate-900">{{ item.student.name | capfirst}}</td>
             <td class="px-5 py-3">{{ item.total_marks }}</td>
             <td class="px-5 py-3">{{ item.obtained_marks }}</td>
             <td class="px-5 py-3">{{ item.percentage|floatformat:2 }}%</td>

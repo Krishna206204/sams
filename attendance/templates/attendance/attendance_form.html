@@ -27,13 +27,14 @@
             required
           />
         </div>
+        
          {% comment %} New button added to back  {% endcomment %}
-      <div class="rounded-2xl border border-slate-200 bg-white p-4">
+      {% comment %} <div class="rounded-2xl border border-slate-200 bg-white p-4">
        <a href="{% url 'attendance' %}"
          class="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">
               ← Back
         </a>
-      </div>
+      </div> {% endcomment %}
 
         <div>
           <label
@@ -68,7 +69,7 @@
           {% for student in students %}
           <tr>
             <td class="px-4 py-3 font-medium text-slate-900">
-              {{ student.name }}
+              {{ student.name | title}}
             </td>
 
             <td class="px-4 py-3">

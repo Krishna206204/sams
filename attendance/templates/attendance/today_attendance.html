@@ -75,7 +75,7 @@
         {% for attendance in attendance_records %}
         <tr class="transition hover:bg-slate-50">
           <td class="px-4 py-3 font-medium text-slate-900">
-            {{ attendance.student.name }}
+            {{ attendance.student.name | title }}
           </td>
 
           {% if attendance.status == "PRESENT" %}

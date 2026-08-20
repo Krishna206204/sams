@@ -9,8 +9,12 @@
 from django.contrib import admin
 from .models import Subject, Assignment, Marks,Notice
 
-# Register your models here.
-admin.site.register(Subject)
+class SubjectAdmin(admin.ModelAdmin):
+    list_display=(
+        "name",
+        "classroom",
+    )
+
 admin.site.register(Assignment)
 admin.site.register(Notice)
 
